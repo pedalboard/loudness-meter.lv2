@@ -29,8 +29,6 @@ jobs:
           profile: minimal
           toolchain: ${{ matrix.rust }}
           override: true
-      - run: cargo install flip-link
-      - run: rustup target install --toolchain=${{ matrix.rust }} aarch64-unknown-linux-gnu
       - run: cargo build --all --release
   linting:
     name: Linting
@@ -59,5 +57,4 @@ jobs:
         with:
           toolchain: stable
           components: rustfmt
-      - run: rustup target install aarch64-unknown-linux-gnu
       - run: cargo fmt -- --check
