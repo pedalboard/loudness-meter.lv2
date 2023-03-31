@@ -1,3 +1,6 @@
+.PHONY: build bundle
+
+.DEFAULT_GOAL := help
 
 build: ## build the plugin
 	cargo build --release
@@ -5,7 +8,7 @@ build: ## build the plugin
 
 bundle: build ## bundle the plugin
 	cp target/release/*.so ./eg-amp-rs.lv2
-	tar -cvfy eg-amp-rs.lv2.tgz eg-apmrs.lv2
+	tar -cvzf eg-amp-rs.lv2.tgz eg-apmrs.lv2
 
 
 help:
