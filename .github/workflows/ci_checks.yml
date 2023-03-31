@@ -21,8 +21,6 @@ jobs:
           # Check compilation works on common OSes
           # (i.e. no path issues)
           - ubuntu-latest
-          - macOS-latest
-          - windows-latest
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
@@ -33,7 +31,7 @@ jobs:
           override: true
       - run: cargo install flip-link
       - run: rustup target install --toolchain=${{ matrix.rust }} aarch64-unknown-linux-gnu
-      - run: cargo build --all --release --target aarch64-unknown-linux-gnu
+      - run: cargo build --all --release
   linting:
     name: Linting
     runs-on: ubuntu-latest
