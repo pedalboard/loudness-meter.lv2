@@ -8,7 +8,7 @@ build: ## build the plugin
 
 bundle: build ## bundle the plugin
 	cp target/release/*.so eg-amp-rs.lv2
-	tar -cvzf eg-amp-rs.lv2.tgz eg-apm-rs.lv2
+	tar -cvzf eg-amp-rs.lv2.tgz eg-amp-rs.lv2
 
 
 help:
