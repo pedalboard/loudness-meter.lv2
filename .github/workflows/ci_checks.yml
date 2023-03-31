@@ -33,7 +33,7 @@ jobs:
           override: true
       - run: cargo install flip-link
       - run: rustup target install --toolchain=${{ matrix.rust }} aarch64-unknown-linux-gnu
-      - run: cargo build --all --release aarch64-unknown-linux-gnu
+      - run: cargo build --all --release --target aarch64-unknown-linux-gnu
   linting:
     name: Linting
     runs-on: ubuntu-latest
