@@ -3,8 +3,8 @@ use lv2::prelude::*;
 #[derive(PortCollection)]
 struct Ports {
     gain: InputPort<Control>,
-    input: InputPort<Audio>,
-    output: OutputPort<Audio>,
+    input: InputPort<InPlaceAudio>,
+    output: OutputPort<InPlaceAudio>,
 }
 
 #[uri("https://github.com/RustAudio/rust-lv2/tree/master/docs/amp")]
@@ -27,8 +27,11 @@ impl Plugin for Amp {
             0.0
         };
 
-        for (in_frame, out_frame) in Iterator::zip(ports.input.iter(), ports.output.iter_mut()) {
-            *out_frame = in_frame * coef;
+        let input = ports.input.iter();
+        let output = ports.output.iter();
+
+        for (input_sample, output_sample) in input.zip(output) {
+            output_sample.set(input_sample.get() * coef);
         }
     }
 }
