@@ -3,8 +3,7 @@
 .DEFAULT_GOAL := help
 
 build: ## build the plugin
-	cargo build --release
-
+	cargo build --release --target aarch64-unknown-linux-gnu
 
 bundle: build ## bundle the plugin
 	cp target/release/*.so eg-amp-rs.lv2
