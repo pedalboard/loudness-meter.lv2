@@ -2,7 +2,7 @@
 name = "db_meter"
 version = "0.1.0"
 authors = ["Christof Laenzlinger <laenzlinger@github.com>"]
-license = "GPL3"
+license = "GPL-3.0-only"
 edition = "2018"
 
 # Plugins are dynamic libraries. This setting tells cargo to export it this way.
