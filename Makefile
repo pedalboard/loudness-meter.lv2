@@ -6,7 +6,7 @@
 PLUGIN_NAME = db-meter
 
 build: ## build the plugin
-	cargo build --release --target aarch64-unknown-linux-gnu
+	cargo build --release
 
 bundle: build ## bundle the plugin
 	mkdir -p target/bundle
