@@ -3,6 +3,8 @@
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix units: <http://lv2plug.in/ns/extensions/units#> .
+@prefix atom: <http://lv2plug.in/ns/ext/atom#> .
+@prefix midi:  <http://lv2plug.in/ns/ext/midi#> .
 
 <https://github.com/pedalboard/db-meter.lv2>
         a lv2:Plugin ,
@@ -47,4 +49,12 @@
                 lv2:index 2 ;
                 lv2:symbol "out" ;
                 lv2:name "Out"
+        ] , [
+                a lv2:OutputPort ,
+                        atom:AtomPort ;
+                atom:bufferType atom:Sequence ;
+                atom:supports midi:MidiEvent ;
+                lv2:index 3 ;
+                lv2:symbol "level" ;
+                lv2:name "Level"
         ] .

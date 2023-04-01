@@ -1,23 +1,41 @@
 use lv2::prelude::*;
+use wmidi::*;
 
 #[derive(PortCollection)]
 struct Ports {
     gain: InputPort<Control>,
     input: InputPort<InPlaceAudio>,
     output: OutputPort<InPlaceAudio>,
+    level: OutputPort<AtomPort>,
+}
+
+#[derive(FeatureCollection)]
+pub struct Features<'a> {
+    map: LV2Map<'a>,
+}
+
+#[derive(URIDCollection)]
+pub struct URIDs {
+    atom: AtomURIDCollection,
+    midi: MidiURIDCollection,
+    unit: UnitURIDCollection,
 }
 
 #[uri("https://github.com/pedalboard/db-meter.lv2")]
-struct DbMeter;
+struct DbMeter {
+    urids: URIDs,
+}
 
 impl Plugin for DbMeter {
     type Ports = Ports;
 
-    type InitFeatures = ();
+    type InitFeatures = Features<'static>;
     type AudioFeatures = ();
 
-    fn new(_plugin_info: &PluginInfo, _features: &mut ()) -> Option<Self> {
-        Some(Self)
+    fn new(_plugin_info: &PluginInfo, features: &mut Features) -> Option<Self> {
+        Some(Self {
+            urids: features.map.populate_collection()?,
+        })
     }
 
     fn run(&mut self, ports: &mut Ports, _features: &mut (), _: u32) {
@@ -33,6 +51,20 @@ impl Plugin for DbMeter {
         for (input_sample, output_sample) in input.zip(output) {
             output_sample.set(input_sample.get() * coef);
         }
+        let mut level_sequence = ports
+            .level
+            .write(self.urids.atom.sequence)
+            .unwrap()
+            .with_unit(self.urids.unit.frame)
+            .unwrap();
+
+        let message_to_send = MidiMessage::NoteOn(Channel::Ch1, Note::C1, Velocity::MAX);
+
+        level_sequence
+            .new_event(0, self.urids.midi.wmidi)
+            .unwrap()
+            .set(message_to_send)
+            .unwrap();
     }
 }
 
