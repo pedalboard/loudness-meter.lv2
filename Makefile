@@ -9,10 +9,10 @@ build: ## build the plugin
 	cargo build --release --target aarch64-unknown-linux-gnu
 
 bundle: build ## bundle the plugin
-	mkdir target/bundle
+	mkdir -p target/bundle
 	cp -r $(PLUGIN_NAME).lv2 target/bundle
 	cp target/release/*.so target/bundle/$(PLUGIN_NAME).lv2
-	tar -cvzf plugin/bundle/$(PLUGIN_NAME)).lv2.tgz target/bundle/$(PLUGIN_NAME).lv2
+	tar -cvzf target/bundle/$(PLUGIN_NAME).lv2.tgz target/bundle/$(PLUGIN_NAME).lv2
 
 
 help:
