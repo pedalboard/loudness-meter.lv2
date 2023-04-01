@@ -8,7 +8,7 @@ struct Ports {
     output: OutputPort<InPlaceAudio>,
 }
 
-#[uri("https://github.com/pedalboard/db-meter.lv2.git")]
+#[uri("https://github.com/pedalboard/db-meter.lv2")]
 struct DbMeter;
 
 impl Plugin for DbMeter {
