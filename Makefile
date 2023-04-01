@@ -14,8 +14,8 @@ bundle: build ## bundle the plugin
 	cp target/release/*.so target/bundle/$(PLUGIN_NAME).lv2
 	tar -C target/bundle -cvzf target/bundle/$(PLUGIN_NAME).lv2.tgz $(PLUGIN_NAME).lv2
 
-validate: bundle ## validate the bundle
-	# requires lv2-dev
+validate: ## validate the bundle
+	# requires lv2-dev sordi
 	lv2_validate target/bundle/$(PLUGIN_NAME)
 
 help:
