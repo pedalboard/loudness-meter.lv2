@@ -3,4 +3,4 @@
 
 <https://github.com/RustAudio/rust-lv2/tree/master/docs/amp> a lv2:Plugin .
 <https://github.com/RustAudio/rust-lv2/tree/master/docs/amp> lv2:binary <libdb_meter.so> .
-<https://github.com/RustAudio/rust-lv2/tree/master/docs/amp> rdfs:seeAlso <amp.ttl> .
+<https://github.com/RustAudio/rust-lv2/tree/master/docs/amp> rdfs:seeAlso <db-meter.ttl> .
