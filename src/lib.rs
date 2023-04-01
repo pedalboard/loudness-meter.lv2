@@ -1,5 +1,4 @@
-use lv2_core::prelude::*;
-use urid::*;
+use lv2::prelude::*;
 
 #[derive(PortCollection)]
 struct Ports {

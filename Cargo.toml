@@ -10,6 +10,12 @@ edition = "2018"
 crate-type = ["cdylib"]
 
 [dependencies]
-lv2-core = { git ="https://github.com/RustAudio/rust-lv2.git", branch = "develop" }
-lv2-urid = "2.1.0"
-urid = "0.1.0"
+lv2 = "0.6.0"
+
+[patch.crates-io]
+lv2  = { git = 'https://github.com/RustAudio/rust-lv2.git', branch = 'develop' }
+lv2-atom  = { git = 'https://github.com/RustAudio/rust-lv2.git', branch = 'develop' }
+lv2-core  = { git = 'https://github.com/RustAudio/rust-lv2.git', branch = 'develop' }
+lv2-midi  = { git = 'https://github.com/RustAudio/rust-lv2.git', branch = 'develop' }
+lv2-units  = { git = 'https://github.com/RustAudio/rust-lv2.git', branch = 'develop' }
+lv2-urid  = { git = 'https://github.com/RustAudio/rust-lv2.git', branch = 'develop' }
