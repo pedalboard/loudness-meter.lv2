@@ -3,7 +3,7 @@ use wmidi::*;
 
 #[derive(PortCollection)]
 struct Ports {
-    gain: InputPort<Control>,
+    gain: InputPort<InPlaceControl>,
     input: InputPort<InPlaceAudio>,
     output: OutputPort<InPlaceAudio>,
     level: OutputPort<AtomPort>,
@@ -39,8 +39,9 @@ impl Plugin for DbMeter {
     }
 
     fn run(&mut self, ports: &mut Ports, _features: &mut (), _: u32) {
-        let coef = if *(ports.gain) > -90.0 {
-            10.0_f32.powf(*(ports.gain) * 0.05)
+        let gain = ports.gain.get();
+        let coef = if gain > -90.0 {
+            10.0_f32.powf(gain * 0.05)
         } else {
             0.0
         };
