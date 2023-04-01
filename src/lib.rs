@@ -8,7 +8,7 @@ struct Ports {
     output: OutputPort<InPlaceAudio>,
 }
 
-#[uri("https://github.com/RustAudio/rust-lv2/tree/master/docs/amp")]
+#[uri("https://github.com/pedalboard/db-meter.lv2.git")]
 struct Amp;
 
 impl Plugin for Amp {
