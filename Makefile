@@ -2,12 +2,17 @@
 
 .DEFAULT_GOAL := help
 
+
+PLUGIN_NAME = db-meter
+
 build: ## build the plugin
 	cargo build --release --target aarch64-unknown-linux-gnu
 
 bundle: build ## bundle the plugin
-	cp target/release/*.so eg-amp-rs.lv2
-	tar -cvzf eg-amp-rs.lv2.tgz eg-amp-rs.lv2
+	mkdir target/bundle
+	cp -r $(PLUGIN_NAME).lv2 target/bundle
+	cp target/release/*.so target/bundle/$(PLUGIN_NAME).lv2
+	tar -cvzf plugin/bundle/$(PLUGIN_NAME)).lv2.tgz target/bundle/$(PLUGIN_NAME).lv2
 
 
 help:
