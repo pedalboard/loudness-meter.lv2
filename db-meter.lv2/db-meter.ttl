@@ -6,7 +6,7 @@
 
 <https://github.com/pedalboard/db-meter.lv2.git>
         a lv2:Plugin ,
-                lv2:AmplifierPlugin ;
+                lv2:AnalyserPlugin ;
         lv2:project <https://github.com/RustAudio/rust-lv2> ;
         doap:name "dB Meter" ;
         doap:license <http://opensource.org/licenses/isc> ;

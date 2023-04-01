@@ -9,9 +9,9 @@ struct Ports {
 }
 
 #[uri("https://github.com/pedalboard/db-meter.lv2.git")]
-struct Amp;
+struct DbMeter;
 
-impl Plugin for Amp {
+impl Plugin for DbMeter {
     type Ports = Ports;
 
     type InitFeatures = ();
@@ -37,4 +37,4 @@ impl Plugin for Amp {
     }
 }
 
-lv2_descriptors!(Amp);
+lv2_descriptors!(DbMeter);
