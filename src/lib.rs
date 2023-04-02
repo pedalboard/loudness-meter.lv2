@@ -77,12 +77,6 @@ impl Plugin for DbMeter {
                 .unwrap()
                 .set(message_to_send)
                 .unwrap();
-
-            level_sequence
-                .new_event(50, self.urids.midi.wmidi)
-                .unwrap()
-                .set(MidiMessage::NoteOff(Channel::Ch1, Note::C2, Velocity::MAX))
-                .unwrap();
         }
     }
 }
