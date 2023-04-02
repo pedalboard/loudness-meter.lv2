@@ -40,6 +40,6 @@
                 atom:bufferType atom:Sequence ;
                 atom:supports midi:MidiEvent ;
                 lv2:index 3 ;
-                lv2:symbol "level.midi" ;
-                lv2:name "Level Midi"
+                lv2:symbol "midi_level" ;
+                lv2:name "Level MIDI messages"
         ] .
