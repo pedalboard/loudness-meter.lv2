@@ -54,7 +54,7 @@ impl Plugin for DbMeter {
 
         self.sample_count += count;
 
-        if false && self.sample_count > SAMPLE_RATE {
+        if self.sample_count > SAMPLE_RATE {
             self.count = self.count + 1.0;
             ports.level.set(self.count);
 
