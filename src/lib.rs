@@ -7,8 +7,9 @@ const SAMPLE_RATE: u32 = 48000;
 struct Ports {
     input: InputPort<InPlaceAudio>,
     output: OutputPort<InPlaceAudio>,
-    level: OutputPort<InPlaceControl>,
     level_midi: OutputPort<AtomPort>,
+    max: OutputPort<InPlaceControl>,
+    count: OutputPort<InPlaceControl>,
 }
 
 #[derive(FeatureCollection)]
@@ -29,6 +30,7 @@ struct DbMeter {
     sample_count: u32,
     event_count: u32,
     on: bool,
+    max: f32,
 }
 
 impl Plugin for DbMeter {
@@ -43,6 +45,7 @@ impl Plugin for DbMeter {
             sample_count: 0,
             on: false,
             event_count: 0,
+            max: 0.0,
         })
     }
 
@@ -51,7 +54,11 @@ impl Plugin for DbMeter {
         let output = ports.output.iter();
 
         for (input_sample, output_sample) in input.zip(output) {
-            output_sample.set(input_sample.get());
+            let value = input_sample.get();
+            if value.abs() > self.max {
+                self.max = value
+            }
+            output_sample.set(value);
         }
 
         self.sample_count += count;
@@ -59,7 +66,8 @@ impl Plugin for DbMeter {
         if self.sample_count > SAMPLE_RATE {
             self.on = !self.on;
             self.event_count += 1;
-            ports.level.set(self.event_count as f32);
+            ports.count.set(self.event_count as f32);
+            ports.max.set(self.max as f32);
 
             self.sample_count = self.sample_count.rem_euclid(SAMPLE_RATE);
 
