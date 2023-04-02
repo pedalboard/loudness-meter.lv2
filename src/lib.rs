@@ -27,7 +27,7 @@ pub struct URIDs {
 struct DbMeter {
     urids: URIDs,
     sample_count: u32,
-    count: f32,
+    on: bool,
 }
 
 impl Plugin for DbMeter {
@@ -40,7 +40,7 @@ impl Plugin for DbMeter {
         Some(Self {
             urids: features.map.populate_collection()?,
             sample_count: 0,
-            count: 0.0,
+            on: false,
         })
     }
 
@@ -55,8 +55,8 @@ impl Plugin for DbMeter {
         self.sample_count += count;
 
         if self.sample_count > SAMPLE_RATE {
-            self.count = self.count + 1.0;
-            ports.level.set(self.count);
+            self.on = !self.on;
+            ports.level.set(count as f32);
 
             self.sample_count = self.sample_count.rem_euclid(SAMPLE_RATE);
 
@@ -67,7 +67,10 @@ impl Plugin for DbMeter {
                 .with_unit(self.urids.unit.frame)
                 .unwrap();
 
-            let message_to_send = MidiMessage::NoteOn(Channel::Ch1, Note::C1, Velocity::MAX);
+            let message_to_send = match self.on {
+                true => MidiMessage::NoteOn(Channel::Ch1, Note::C1, Velocity::MAX),
+                false => MidiMessage::NoteOff(Channel::Ch1, Note::C1, Velocity::MAX),
+            };
 
             level_sequence
                 .new_event(0, self.urids.midi.wmidi)
