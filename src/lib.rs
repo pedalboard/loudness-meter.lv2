@@ -69,13 +69,19 @@ impl Plugin for DbMeter {
 
             let message_to_send = match self.on {
                 true => MidiMessage::NoteOn(Channel::Ch1, Note::C1, Velocity::MAX),
-                false => MidiMessage::NoteOff(Channel::Ch1, Note::C1, Velocity::MAX),
+                false => MidiMessage::NoteOff(Channel::Ch1, Note::C2, Velocity::MAX),
             };
 
             level_sequence
-                .new_event(0, self.urids.midi.wmidi)
+                .new_event(100, self.urids.midi.wmidi)
                 .unwrap()
                 .set(message_to_send)
+                .unwrap();
+
+            level_sequence
+                .new_event(50, self.urids.midi.wmidi)
+                .unwrap()
+                .set(MidiMessage::NoteOff(Channel::Ch1, Note::C2, Velocity::MAX))
                 .unwrap();
         }
     }
