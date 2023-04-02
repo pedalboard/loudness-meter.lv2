@@ -27,6 +27,7 @@ pub struct URIDs {
 struct DbMeter {
     urids: URIDs,
     sample_count: u32,
+    event_count: u32,
     on: bool,
 }
 
@@ -41,6 +42,7 @@ impl Plugin for DbMeter {
             urids: features.map.populate_collection()?,
             sample_count: 0,
             on: false,
+            event_count: 0,
         })
     }
 
@@ -56,7 +58,7 @@ impl Plugin for DbMeter {
 
         if self.sample_count > SAMPLE_RATE {
             self.on = !self.on;
-            ports.level.set(count as f32);
+            ports.level.set(self.event_count as f32);
 
             self.sample_count = self.sample_count.rem_euclid(SAMPLE_RATE);
 
