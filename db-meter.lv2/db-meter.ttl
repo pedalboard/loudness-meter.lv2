@@ -10,7 +10,7 @@
         a lv2:Plugin ,
                 lv2:AnalyserPlugin ;
         lv2:project <https://github.com/pedalboard/db-meter.lv2> ;
-        doap:name "dB Meter" ;
+        doap:name "dB-Meter" ;
         doap:license <http://opensource.org/licenses/GPL-3.0-only> ;
         lv2:optionalFeature lv2:hardRTCapable ;
         lv2:port [
