@@ -7,7 +7,7 @@ const SAMPLE_RATE: u32 = 48000;
 struct Ports {
     input: InputPort<InPlaceAudio>,
     output: OutputPort<InPlaceAudio>,
-    level: InputPort<InPlaceControl>,
+    level: OutputPort<InPlaceControl>,
     level_midi: OutputPort<AtomPort>,
 }
 
