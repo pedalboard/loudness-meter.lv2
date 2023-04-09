@@ -81,7 +81,7 @@ impl Plugin for DbMeter {
 
             let message_to_send = match self.on {
                 true => MidiMessage::NoteOn(Channel::Ch1, Note::C1, Velocity::MAX),
-                false => MidiMessage::NoteOff(Channel::Ch1, Note::C2, Velocity::MAX),
+                false => MidiMessage::NoteOff(Channel::Ch1, Note::C1, Velocity::MAX),
             };
 
             level_sequence
