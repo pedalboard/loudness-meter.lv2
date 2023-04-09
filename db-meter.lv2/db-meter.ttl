@@ -30,13 +30,13 @@
                         lv2:OutputPort ;
                 lv2:index 2 ;
                 lv2:symbol "out_r" ;
-                lv2:name "Out_Right"
+                lv2:name "Out_Right (pass-through)"
         ] , [
                 a lv2:AudioPort ,
                         lv2:OutputPort ;
                 lv2:index 3 ;
                 lv2:symbol "out_l" ;
-                lv2:name "Out_Left"
+                lv2:name "Out_Left (pass-through)"
         ] ,[
                 a lv2:OutputPort ,
                         atom:AtomPort ;

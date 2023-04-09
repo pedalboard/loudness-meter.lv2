@@ -44,8 +44,7 @@ impl Plugin for DbMeter {
         Some(Self {
             urids: features.map.populate_collection()?,
             sample_count: 0,
-            ebu: ebur128::EbuR128::new(2, sample_rate, ebur128::Mode::S | ebur128::Mode::I)
-                .unwrap(),
+            ebu: EbuR128::new(2, sample_rate, Mode::S | Mode::I).unwrap(),
         })
     }
 
@@ -61,16 +60,23 @@ impl Plugin for DbMeter {
             .map(|s| s.get())
             .collect::<Vec<f32>>();
 
-        self.ebu.add_frames_planar_f32(&[&r, &l]).unwrap();
+        self.ebu.add_frames_planar_f32(&[&l, &r]).unwrap();
+
+        // pass the signal through to outputs
+        for (is, os) in ports.in_r.iter().zip(ports.out_r.iter()) {
+            os.set(is.get());
+        }
+        for (is, os) in ports.in_l.iter().zip(ports.out_l.iter()) {
+            os.set(is.get());
+        }
 
         self.sample_count += count;
 
+        // update the with 1Hz frequency
         if self.sample_count > self.ebu.rate() {
             self.sample_count = self.sample_count.rem_euclid(self.ebu.rate());
-
-            ports
-                .short_term
-                .set(self.ebu.loudness_shortterm().unwrap() as f32);
+            let short_term = self.ebu.loudness_shortterm().unwrap();
+            ports.short_term.set(short_term as f32);
             ports
                 .integrated
                 .set(self.ebu.loudness_global().unwrap() as f32);
@@ -83,8 +89,11 @@ impl Plugin for DbMeter {
                 )
                 .unwrap();
 
-            let message_to_send =
-                MidiMessage::NoteOff(Channel::Ch1, Note::C1, U7::try_from(1u8).unwrap());
+            let message_to_send = MidiMessage::NoteOff(
+                Channel::Ch1,
+                Note::C1,
+                U7::try_from((-short_term) as u8).unwrap(),
+            );
 
             level_sequence
                 .init(
