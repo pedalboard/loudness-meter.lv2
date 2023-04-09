@@ -49,16 +49,8 @@ impl Plugin for DbMeter {
     }
 
     fn run(&mut self, ports: &mut Ports, _features: &mut (), count: u32) {
-        let r = ports
-            .in_r
-            .into_iter()
-            .map(|s| s.get())
-            .collect::<Vec<f32>>();
-        let l = ports
-            .in_l
-            .into_iter()
-            .map(|s| s.get())
-            .collect::<Vec<f32>>();
+        let r = ports.in_r.iter().map(|s| s.get()).collect::<Vec<f32>>();
+        let l = ports.in_l.iter().map(|s| s.get()).collect::<Vec<f32>>();
 
         self.ebu.add_frames_planar_f32(&[&l, &r]).unwrap();
 
@@ -76,10 +68,9 @@ impl Plugin for DbMeter {
         if self.sample_count > self.ebu.rate() {
             self.sample_count = self.sample_count.rem_euclid(self.ebu.rate());
             let short_term = self.ebu.loudness_shortterm().unwrap();
+            let integrated = self.ebu.loudness_global().unwrap();
             ports.short_term.set(short_term as f32);
-            ports
-                .integrated
-                .set(self.ebu.loudness_global().unwrap() as f32);
+            ports.integrated.set(integrated as f32);
 
             let mut level_sequence = ports
                 .loudness_midi
@@ -90,16 +81,18 @@ impl Plugin for DbMeter {
                 .unwrap();
 
             let st = short_term.abs().min(127.0).round() as u8;
+            let int = integrated.abs().min(127.0).round() as u8;
 
-            let message_to_send =
-                MidiMessage::NoteOff(Channel::Ch1, Note::C1, U7::try_from(st).unwrap());
+            let st_message =
+                MidiMessage::NoteOff(Channel::Ch4, Note::C1, U7::try_from(st).unwrap());
 
+            let int_message =
+                MidiMessage::NoteOff(Channel::Ch4, Note::D1, U7::try_from(int).unwrap());
             level_sequence
-                .init(
-                    TimeStamp::Frames(100),
-                    self.urids.midi.wmidi,
-                    message_to_send,
-                )
+                .init(TimeStamp::Frames(100), self.urids.midi.wmidi, st_message)
+                .unwrap();
+            level_sequence
+                .init(TimeStamp::Frames(100), self.urids.midi.wmidi, int_message)
                 .unwrap();
         }
     }
