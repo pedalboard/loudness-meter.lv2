@@ -3,8 +3,6 @@ use lv2::prelude::*;
 use std::convert::TryFrom;
 use wmidi::*;
 
-const SAMPLE_RATE: u32 = 48000;
-
 #[derive(PortCollection)]
 struct Ports {
     in_r: InputPort<InPlaceAudio>,
@@ -32,7 +30,6 @@ pub struct URIDs {
 struct DbMeter {
     urids: URIDs,
     sample_count: u32,
-    rate: f64,
     ebu: ebur128::EbuR128,
 }
 
@@ -43,11 +40,12 @@ impl Plugin for DbMeter {
     type AudioFeatures = ();
 
     fn new(plugin_info: &PluginInfo, features: &mut Features) -> Option<Self> {
+        let sample_rate = plugin_info.sample_rate() as u32;
         Some(Self {
             urids: features.map.populate_collection()?,
-            rate: plugin_info.sample_rate(),
             sample_count: 0,
-            ebu: ebur128::EbuR128::new(2, 48000, ebur128::Mode::S | ebur128::Mode::I).unwrap(),
+            ebu: ebur128::EbuR128::new(2, sample_rate, ebur128::Mode::S | ebur128::Mode::I)
+                .unwrap(),
         })
     }
 
@@ -61,9 +59,8 @@ impl Plugin for DbMeter {
 
         self.sample_count += count;
 
-        if self.sample_count > SAMPLE_RATE {
-            ports.short_term.set(self.rate as f32);
-            self.sample_count = self.sample_count.rem_euclid(SAMPLE_RATE);
+        if self.sample_count > self.ebu.rate() {
+            self.sample_count = self.sample_count.rem_euclid(self.ebu.rate());
 
             let mut level_sequence = ports
                 .loudness_midi
