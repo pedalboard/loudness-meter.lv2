@@ -89,7 +89,7 @@ impl Plugin for DbMeter {
                 )
                 .unwrap();
 
-            let st = short_term.abs().max(126.0).round() as u8;
+            let st = short_term.abs().min(127.0).round() as u8;
 
             let message_to_send =
                 MidiMessage::NoteOff(Channel::Ch1, Note::C1, U7::try_from(st).unwrap());
