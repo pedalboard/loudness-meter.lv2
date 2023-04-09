@@ -80,8 +80,8 @@ impl Plugin for DbMeter {
                 .unwrap();
 
             let message_to_send = match self.on {
-                true => MidiMessage::NoteOn(Channel::Ch1, Note::C1, Velocity::MAX),
-                false => MidiMessage::NoteOff(Channel::Ch1, Note::C1, Velocity::MAX),
+                true => MidiMessage::NoteOn(Channel::Ch1, Note::C1, U7::from(1u8)),
+                false => MidiMessage::NoteOff(Channel::Ch1, Note::C1, U7::from(1u8)),
             };
 
             level_sequence
