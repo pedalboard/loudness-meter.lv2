@@ -1,3 +1,4 @@
+use ebur128::{EbuR128, Mode};
 use lv2::prelude::*;
 use std::convert::TryFrom;
 use wmidi::*;
@@ -31,6 +32,8 @@ pub struct URIDs {
 struct DbMeter {
     urids: URIDs,
     sample_count: u32,
+    rate: f64,
+    ebu: ebur128::EbuR128,
 }
 
 impl Plugin for DbMeter {
@@ -39,10 +42,12 @@ impl Plugin for DbMeter {
     type InitFeatures = Features<'static>;
     type AudioFeatures = ();
 
-    fn new(_plugin_info: &PluginInfo, features: &mut Features) -> Option<Self> {
+    fn new(plugin_info: &PluginInfo, features: &mut Features) -> Option<Self> {
         Some(Self {
             urids: features.map.populate_collection()?,
+            rate: plugin_info.sample_rate(),
             sample_count: 0,
+            ebu: ebur128::EbuR128::new(2, 48000, ebur128::Mode::S | ebur128::Mode::I).unwrap(),
         })
     }
 
@@ -57,6 +62,7 @@ impl Plugin for DbMeter {
         self.sample_count += count;
 
         if self.sample_count > SAMPLE_RATE {
+            ports.short_term.set(self.rate as f32);
             self.sample_count = self.sample_count.rem_euclid(SAMPLE_RATE);
 
             let mut level_sequence = ports
