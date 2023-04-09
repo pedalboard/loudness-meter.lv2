@@ -50,17 +50,30 @@ impl Plugin for DbMeter {
     }
 
     fn run(&mut self, ports: &mut Ports, _features: &mut (), count: u32) {
-        /*
-        for (input_sample, output_sample) in input.zip(output) {
-            let value = input_sample.get();
-            output_sample.set(value);
-        }
-        */
+        let r = ports
+            .in_r
+            .into_iter()
+            .map(|s| s.get())
+            .collect::<Vec<f32>>();
+        let l = ports
+            .in_l
+            .into_iter()
+            .map(|s| s.get())
+            .collect::<Vec<f32>>();
+
+        self.ebu.add_frames_planar_f32(&[&r, &l]).unwrap();
 
         self.sample_count += count;
 
         if self.sample_count > self.ebu.rate() {
             self.sample_count = self.sample_count.rem_euclid(self.ebu.rate());
+
+            ports
+                .short_term
+                .set(self.ebu.loudness_shortterm().unwrap() as f32);
+            ports
+                .integrated
+                .set(self.ebu.loudness_global().unwrap() as f32);
 
             let mut level_sequence = ports
                 .loudness_midi
