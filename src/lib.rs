@@ -1,4 +1,5 @@
 use lv2::prelude::*;
+use std::convert::TryFrom;
 use wmidi::*;
 
 const SAMPLE_RATE: u32 = 48000;
