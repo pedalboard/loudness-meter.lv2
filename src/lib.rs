@@ -89,11 +89,8 @@ impl Plugin for DbMeter {
                 )
                 .unwrap();
 
-            let message_to_send = MidiMessage::NoteOff(
-                Channel::Ch1,
-                Note::C1,
-                U7::try_from((-short_term) as u8).unwrap(),
-            );
+            let message_to_send =
+                MidiMessage::NoteOff(Channel::Ch1, Note::C1, U7::try_from(11).unwrap());
 
             level_sequence
                 .init(
