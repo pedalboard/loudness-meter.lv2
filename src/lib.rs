@@ -89,8 +89,10 @@ impl Plugin for DbMeter {
                 )
                 .unwrap();
 
+            let st = short_term.abs().round().max(127.0) as u8;
+
             let message_to_send =
-                MidiMessage::NoteOff(Channel::Ch1, Note::C1, U7::try_from(11).unwrap());
+                MidiMessage::NoteOff(Channel::Ch1, Note::C1, U7::try_from(st).unwrap());
 
             level_sequence
                 .init(
