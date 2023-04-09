@@ -14,9 +14,9 @@ lv2 = "0.6.0"
 wmidi = "3.1.0"
 
 [patch.crates-io]
-lv2  = { git = 'https://github.com/RustAudio/rust-lv2.git', branch = 'develop' }
-lv2-atom  = { git = 'https://github.com/RustAudio/rust-lv2.git', branch = 'develop' }
-lv2-core  = { git = 'https://github.com/RustAudio/rust-lv2.git', branch = 'develop' }
-lv2-midi  = { git = 'https://github.com/RustAudio/rust-lv2.git', branch = 'develop' }
-lv2-units  = { git = 'https://github.com/RustAudio/rust-lv2.git', branch = 'develop' }
-lv2-urid  = { git = 'https://github.com/RustAudio/rust-lv2.git', branch = 'develop' }
+lv2  = { git = 'https://github.com/RustAudio/rust-lv2.git', rev = 'b6d02f38d40ade7f17af542b9a7b496044ddf821' }
+lv2-atom  = { git = 'https://github.com/RustAudio/rust-lv2.git', rev = 'b6d02f38d40ade7f17af542b9a7b496044ddf821' }
+lv2-core  = { git = 'https://github.com/RustAudio/rust-lv2.git', rev = 'b6d02f38d40ade7f17af542b9a7b496044ddf821' }
+lv2-midi  = { git = 'https://github.com/RustAudio/rust-lv2.git', rev = 'b6d02f38d40ade7f17af542b9a7b496044ddf821' }
+lv2-units  = { git = 'https://github.com/RustAudio/rust-lv2.git', rev = 'b6d02f38d40ade7f17af542b9a7b496044ddf821' }
+lv2-urid  = { git = 'https://github.com/RustAudio/rust-lv2.git', rev = 'b6d02f38d40ade7f17af542b9a7b496044ddf821' }

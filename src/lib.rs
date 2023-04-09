@@ -73,9 +73,10 @@ impl Plugin for DbMeter {
 
             let mut level_sequence = ports
                 .level_midi
-                .write(self.urids.atom.sequence)
-                .unwrap()
-                .with_unit(self.urids.unit.frame)
+                .init(
+                    self.urids.atom.sequence,
+                    TimeStampURID::Frames(self.urids.unit.frame),
+                )
                 .unwrap();
 
             let message_to_send = match self.on {
@@ -84,9 +85,11 @@ impl Plugin for DbMeter {
             };
 
             level_sequence
-                .new_event(100, self.urids.midi.wmidi)
-                .unwrap()
-                .set(message_to_send)
+                .init(
+                    TimeStamp::Frames(100),
+                    self.urids.midi.wmidi,
+                    message_to_send,
+                )
                 .unwrap();
         }
     }
