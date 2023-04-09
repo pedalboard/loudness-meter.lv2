@@ -67,7 +67,7 @@ impl Plugin for DbMeter {
             self.on = !self.on;
             self.event_count += 1;
             ports.count.set(self.event_count as f32);
-            ports.max.set(self.max as f32);
+            ports.max.set(self.max);
 
             self.sample_count = self.sample_count.rem_euclid(SAMPLE_RATE);
 
