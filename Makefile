@@ -21,7 +21,7 @@ validate: ## validate the bundle
 clean:
 	cargo clean
 
-release: clean
+release: clean ## create a release (default dry-run, use RELEASE_ARGS='--execute patcch' make release)
 	cargo release --no-publish $(RELEASE_ARGS)
 	$(MAKE) build bundle
 ifdef RELEASE_ARGS
