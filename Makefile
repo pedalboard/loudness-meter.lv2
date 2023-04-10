@@ -3,14 +3,15 @@
 .DEFAULT_GOAL := help
 
 PLUGIN_NAME = db-meter
+TARGET = aarch64-unknown-linux-gnu
 
 build: ## build the plugin
-	cargo build --release --target aarch64-unknown-linux-gnu
+	cargo build --release --target $(TARGET) 
 
 bundle: ## bundle the plugin
 	mkdir -p target/bundle
 	cp -r $(PLUGIN_NAME).lv2 target/bundle
-	cp target/release/*.so target/bundle/$(PLUGIN_NAME).lv2
+	cp target/$(TARGET)/release/*.so target/bundle/$(PLUGIN_NAME).lv2
 	tar -C target/bundle -cvzf target/$(PLUGIN_NAME).lv2.tgz $(PLUGIN_NAME).lv2
 
 validate: ## validate the bundle
