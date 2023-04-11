@@ -1,6 +1,6 @@
 [package]
 name = "db_meter"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Christof Laenzlinger <laenzlinger@github.com>"]
 license = "GPL-3.0-only"
 edition = "2018"
