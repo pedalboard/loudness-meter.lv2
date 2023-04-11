@@ -83,17 +83,11 @@ impl Plugin for DbMeter {
             let st = short_term.abs().min(127.0).round() as u8;
             let int = integrated.abs().min(127.0).round() as u8;
 
-            let st_message = MidiMessage::ControlChange(
-                Channel::Ch4,
-                ControlNumber::try_from(16).unwrap(),
-                U7::try_from(st).unwrap(),
-            );
+            let st_message =
+                MidiMessage::NoteOff(Channel::Ch4, Note::C1, U7::try_from(st).unwrap());
 
-            let int_message = MidiMessage::ControlChange(
-                Channel::Ch4,
-                U7::try_from(17).unwrap(),
-                U7::try_from(int).unwrap(),
-            );
+            let int_message =
+                MidiMessage::NoteOff(Channel::Ch4, Note::D1, U7::try_from(int).unwrap());
             level_sequence
                 .init(TimeStamp::Frames(100), self.urids.midi.wmidi, st_message)
                 .unwrap();
