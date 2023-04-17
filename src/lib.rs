@@ -26,7 +26,7 @@ pub struct URIDs {
     unit: UnitURIDCollection,
 }
 
-#[uri("https://github.com/pedalboard/db-meter.lv2")]
+#[uri("https://github.com/pedalboard/loudness-meter.lv2")]
 struct LoudnessMeter {
     urids: URIDs,
     sample_count: u32,

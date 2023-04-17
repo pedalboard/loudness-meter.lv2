@@ -6,10 +6,10 @@
 @prefix atom: <http://lv2plug.in/ns/ext/atom#> .
 @prefix midi:  <http://lv2plug.in/ns/ext/midi#> .
 
-<https://github.com/pedalboard/db-meter.lv2>
+<https://github.com/pedalboard/loudness-meter.lv2>
         a lv2:Plugin ,
                 lv2:AnalyserPlugin ;
-        lv2:project <https://github.com/pedalboard/db-meter.lv2> ;
+        lv2:project <https://github.com/pedalboard/loudness-meter.lv2> ;
         doap:name "db_meter" ;
         doap:license <http://opensource.org/licenses/GPL-3.0-only> ;
         lv2:optionalFeature lv2:hardRTCapable ;

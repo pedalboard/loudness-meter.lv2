@@ -1,6 +1,6 @@
 @prefix lv2:  <http://lv2plug.in/ns/lv2core#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 
-<https://github.com/pedalboard/db-meter.lv2> a lv2:Plugin .
-<https://github.com/pedalboard/db-meter.lv2> lv2:binary <libdb_meter.so> .
-<https://github.com/pedalboard/db-meter.lv2> rdfs:seeAlso <db-meter.ttl> .
+<https://github.com/pedalboard/loudness-meter.lv2> a lv2:Plugin .
+<https://github.com/pedalboard/loudness-meter.lv2> lv2:binary <libdb_meter.so> .
+<https://github.com/pedalboard/loudness-meter.lv2> rdfs:seeAlso <db-meter.ttl> .
