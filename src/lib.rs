@@ -27,13 +27,13 @@ pub struct URIDs {
 }
 
 #[uri("https://github.com/pedalboard/db-meter.lv2")]
-struct DbMeter {
+struct LoudnessMeter {
     urids: URIDs,
     sample_count: u32,
     ebu: ebur128::EbuR128,
 }
 
-impl Plugin for DbMeter {
+impl Plugin for LoudnessMeter {
     type Ports = Ports;
 
     type InitFeatures = Features<'static>;
@@ -98,4 +98,4 @@ impl Plugin for DbMeter {
     }
 }
 
-lv2_descriptors!(DbMeter);
+lv2_descriptors!(LoudnessMeter);
