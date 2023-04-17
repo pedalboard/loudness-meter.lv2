@@ -97,7 +97,7 @@ impl Plugin for LoudnessMeter {
                 .unwrap();
 
             // update integrated loudness with 1Hz frequency
-            if self.houndred_ms_count > 10 {
+            if self.houndred_ms_count == 10 {
                 self.houndred_ms_count = 0;
                 let integrated = self.ebu.loudness_global().unwrap();
                 ports.integrated.set(integrated as f32);
