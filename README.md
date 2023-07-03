@@ -8,5 +8,5 @@ To avoid MIDI compatibility issues the values are exposed as Note OFF messages:
 
 |            | type     | Channel | Note | Velocity                               |
 |------------|----------|---------|------|----------------------------------------|
-| mementary  | Note Off | 4       | C1   | 0-127 (rounded negated value in LUFS)  |
+| momentary  | Note Off | 4       | C1   | 0-127 (rounded negated value in LUFS)  |
 
