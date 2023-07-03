@@ -1,6 +1,6 @@
 [package]
 name = "loudness_meter"
-version = "0.2.0"
+version = "1.0.0"
 authors = ["Christof Laenzlinger <laenzlinger@github.com>"]
 license = "GPL-3.0-only"
 edition = "2018"
