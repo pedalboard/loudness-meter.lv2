@@ -30,6 +30,7 @@ struct LoudnessMeter {
     urids: URIDs,
     sample_count: u32,
     houndred_ms_count: u32,
+    buffer: [f32; 2],
     ebu: ebur128::EbuR128,
 }
 
@@ -45,22 +46,24 @@ impl Plugin for LoudnessMeter {
             urids: features.map.populate_collection()?,
             sample_count: 0,
             houndred_ms_count: 0,
+            buffer: [0.0, 0.0],
             ebu: EbuR128::new(2, sample_rate, Mode::M).unwrap(),
         })
     }
 
     fn run(&mut self, ports: &mut Ports, _features: &mut (), count: u32) {
-        let r = ports.in_r.iter().map(|s| s.get()).collect::<Vec<f32>>();
-        let l = ports.in_l.iter().map(|s| s.get()).collect::<Vec<f32>>();
-
-        self.ebu.add_frames_planar_f32(&[&l, &r]).unwrap();
-
         // pass the signal through to outputs
-        for (is, os) in ports.in_r.iter().zip(ports.out_r.iter()) {
-            os.set(is.get());
-        }
-        for (is, os) in ports.in_l.iter().zip(ports.out_l.iter()) {
-            os.set(is.get());
+        for ((isr, osr), (isl, osl)) in ports
+            .in_r
+            .iter()
+            .zip(ports.out_r.iter())
+            .zip(ports.in_l.iter().zip(ports.out_l.iter()))
+        {
+            osr.set(isr.get());
+            osl.set(isl.get());
+            self.buffer[0] = isr.get();
+            self.buffer[1] = isl.get();
+            self.ebu.add_frames_f32(&self.buffer).unwrap();
         }
 
         self.sample_count += count;
