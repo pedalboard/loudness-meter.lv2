@@ -7,6 +7,8 @@ use wmidi::*;
 struct Ports {
     in_r: InputPort<InPlaceAudio>,
     in_l: InputPort<InPlaceAudio>,
+    out_r: OutputPort<InPlaceAudio>,
+    out_l: OutputPort<InPlaceAudio>,
     loudness_midi: OutputPort<AtomPort>,
     momentary: OutputPort<InPlaceControl>,
 }
@@ -51,7 +53,14 @@ impl Plugin for LoudnessMeter {
 
     fn run(&mut self, ports: &mut Ports, _features: &mut (), count: u32) {
         // pass the signal through to outputs
-        for (isr, isl) in ports.in_r.iter().zip(ports.in_l.iter()) {
+        for ((isr, osr), (isl, osl)) in ports
+            .in_r
+            .iter()
+            .zip(ports.out_r.iter())
+            .zip(ports.in_l.iter().zip(ports.out_l.iter()))
+        {
+            osr.set(isr.get());
+            osl.set(isl.get());
             self.buffer[0] = isr.get();
             self.buffer[1] = isl.get();
             self.ebu.add_frames_f32(&self.buffer).unwrap();
