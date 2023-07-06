@@ -1,6 +1,7 @@
 use ebur128::{EbuR128, Mode};
 use lv2::prelude::*;
 use std::convert::TryFrom;
+use std::time::Instant;
 use wmidi::*;
 
 #[derive(PortCollection)]
@@ -70,8 +71,10 @@ impl Plugin for LoudnessMeter {
         // update the short loudness with 10Hz frequency
         let rate = self.ebu.rate() / 10;
         if self.sample_count > rate {
+            let start = Instant::now();
             let momentary = self.ebu.loudness_momentary().unwrap();
-            ports.momentary.set(momentary as f32);
+            let duration = start.elapsed();
+            ports.momentary.set(duration.as_micros() as f32);
 
             self.sample_count = self.sample_count.rem_euclid(rate);
             self.houndred_ms_count += 1;
