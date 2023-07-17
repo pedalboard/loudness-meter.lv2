@@ -21,3 +21,7 @@ lv2-core  = { git = 'https://github.com/RustAudio/rust-lv2.git', rev = 'b6d02f38
 lv2-midi  = { git = 'https://github.com/RustAudio/rust-lv2.git', rev = 'b6d02f38d40ade7f17af542b9a7b496044ddf821' }
 lv2-units  = { git = 'https://github.com/RustAudio/rust-lv2.git', rev = 'b6d02f38d40ade7f17af542b9a7b496044ddf821' }
 lv2-urid  = { git = 'https://github.com/RustAudio/rust-lv2.git', rev = 'b6d02f38d40ade7f17af542b9a7b496044ddf821' }
+
+[profile.release]
+strip = "symbols"
+opt-level =3
