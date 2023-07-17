@@ -5,8 +5,10 @@
 PLUGIN_NAME = loudness-meter
 TARGET = aarch64-unknown-linux-gnu
 
+# CROSS_CONTAINER_OPTS is a workaround for https://github.com/cross-rs/cross/issues/1214
+
 build: ## build the plugin
-	cross build --release --target $(TARGET)
+	CROSS_CONTAINER_OPTS="--platform linux/amd64" cross build --release --target $(TARGET)
 
 bundle: ## bundle the plugin
 	mkdir -p target/bundle
