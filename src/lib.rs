@@ -30,6 +30,7 @@ struct LoudnessMeter {
     urids: URIDs,
     sample_count: u32,
     houndred_ms_count: u32,
+    last_midi_value: u8,
     buffer: [f32; 2],
     ebu: ebur128::EbuR128,
 }
@@ -45,6 +46,7 @@ impl Plugin for LoudnessMeter {
         Some(Self {
             urids: features.map.populate_collection()?,
             sample_count: 0,
+            last_midi_value: 255,
             houndred_ms_count: 0,
             buffer: [0.0, 0.0],
             ebu: EbuR128::new(2, sample_rate, Mode::M).unwrap(),
@@ -85,15 +87,18 @@ impl Plugin for LoudnessMeter {
                 .unwrap();
 
             let st = momentary.abs().min(127.0).round() as u8;
-            let st_message =
-                MidiMessage::NoteOff(Channel::Ch4, Note::C1, U7::try_from(st).unwrap());
-            level_sequence
-                .init(
-                    TimeStamp::Frames(self.sample_count as i64),
-                    self.urids.midi.wmidi,
-                    st_message,
-                )
-                .unwrap();
+            if st != self.last_midi_value {
+                self.last_midi_value = st;
+                let st_message =
+                    MidiMessage::NoteOff(Channel::Ch4, Note::C1, U7::try_from(st).unwrap());
+                level_sequence
+                    .init(
+                        TimeStamp::Frames(self.sample_count as i64),
+                        self.urids.midi.wmidi,
+                        st_message,
+                    )
+                    .unwrap();
+            }
         }
     }
 }
