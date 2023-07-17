@@ -20,3 +20,11 @@ rustup target add aarch64-unknown-linux-gnu
 cargo install cross release
 make clean build bundle
 ```
+
+Workaround on Apple M1 using orbstack
+
+Manually pull the image before running the build:
+
+```
+docker pull ghcr.io/cross-rs/aarch64-unknown-linux-gnu:0.2.5 --platform linux/amd64
+```
