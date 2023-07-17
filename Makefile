@@ -6,7 +6,7 @@ PLUGIN_NAME = loudness-meter
 TARGET = aarch64-unknown-linux-gnu
 
 build: ## build the plugin
-	cargo build --release --target $(TARGET) 
+	cross build --release --target $(TARGET)
 
 bundle: ## bundle the plugin
 	mkdir -p target/bundle
