@@ -17,6 +17,6 @@ install rust with https://rustup.rs/
 
 ```
 rustup target add aarch64-unknown-linux-gnu
-cargo install cross
+cargo install cross release
 make clean build bundle
 ```
